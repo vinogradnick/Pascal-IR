@@ -1,0 +1,156 @@
+warning: unused import: `write`
+ --> src\compiler\lexer\wrapper.rs:1:16
+  |
+1 | use std::fmt::{write, Debug};
+  |                ^^^^^
+  |
+  = note: `#[warn(unused_imports)]` on by default
+
+warning: unused import: `throw_empty`
+ --> src\compiler\parser\common.rs:5:5
+  |
+5 |     throw_empty, throw_eof, throw_syntax,
+  |     ^^^^^^^^^^^
+
+warning: unused variable: `op`
+  --> src\compiler\parser\parse_statement.rs:42:13
+   |
+42 |         let op = self.cur_move();
+   |             ^^ help: if this is intentional, prefix it with an underscore: `_op`
+   |
+   = note: `#[warn(unused_variables)]` on by default
+
+warning: unused variable: `rhs`
+  --> src\compiler\parser\parse_statement.rs:44:13
+   |
+44 |         let rhs = self.get_expr()?;
+   |             ^^^ help: if this is intentional, prefix it with an underscore: `_rhs`
+
+warning: fields `line` and `column` are never read
+ --> src\compiler\lexer\wrapper.rs:8:5
+  |
+6 | pub struct TokenWrapper {
+  |            ------------ fields in this struct
+7 |     pub token: Token,
+8 |     line: usize,
+  |     ^^^^
+9 |     column: usize,
+  |     ^^^^^^
+  |
+  = note: `TokenWrapper` has a derived impl for the trait `Clone`, but this is intentionally ignored during dead code analysis
+  = note: `#[warn(dead_code)]` on by default
+
+warning: `project-1` (bin "project-1") generated 5 warnings (run `cargo fix --bin "project-1"` to apply 2 suggestions)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.01s
+     Running `target\debug\project-1.exe`
+[Var, Ident("INPUT"), Comma, Ident("COUNT"), Semicolon, Begin, Ident("COUNT"), Assign, Plus, Number(2), Semicolon, While, Ident("COUNT"), NonEqual, Number(0), Do, Begin, Ident("COUNT"), Assign, Ident("COUNT"), Minus, Number(1), Semicolon, Read, Ident("INPUT"), Semicolon, If, Ident("INPUT"), Lt, Number(10), Then, While, Ident("INPUT"), Lt, Number(10), Do, Print, Ident("INPUT"), Semicolon, If, Ident("INPUT"), Gte, Number(10), Then, Print, Minus, Number(1), End, End, Period]
+
+Exec:Var
+Exec:Var
+Exec:Var
+Exec:Ident("INPUT")
+Exec:Ident("INPUT")
+Exec:Comma
+Exec:Comma
+Exec:Ident("COUNT")
+Exec:Ident("COUNT")
+Exec:Semicolon
+Exec:Begin
+Exec:Begin
+Exec:Begin
+Exec:Ident("COUNT")
+Exec:Ident("COUNT")
+Ident("COUNT")
+Exec:Assign
+Exec:Plus
+Exec:Number(2)
+Exec:Semicolon
+Exec:Semicolon
+Exec:While
+current token:While
+iterated [Var, Ident("INPUT"), Comma, Ident("COUNT"), Semicolon, Begin, Ident("COUNT"), Assign, Plus, Number(2), Semicolon]
+Exec:While
+Exec:While
+While
+Exec:Ident("COUNT")
+Exec:Ident("COUNT")
+Exec:Ident("COUNT")
+Exec:NonEqual
+Exec:NonEqual
+Exec:NonEqual
+Exec:Number(0)
+Exec:Number(0)
+Exec:Do
+Exec:Do
+Exec:Do
+Exec:Begin
+Exec:Ident("COUNT")
+Exec:Ident("COUNT")
+Ident("COUNT")
+Exec:Assign
+Exec:Ident("COUNT")
+Exec:Ident("COUNT")
+Exec:Minus
+Exec:Minus
+Exec:Minus
+Exec:Number(1)
+Exec:Semicolon
+Exec:Semicolon
+Exec:Read
+current token:Read
+iterated [Var, Ident("INPUT"), Comma, Ident("COUNT"), Semicolon, Begin, Ident("COUNT"), Assign, Plus, Number(2), Semicolon, While, Ident("COUNT"), NonEqual, Number(0), Do, Begin, Ident("COUNT"), Assign, Ident("COUNT"), Minus, Number(1), Semicolon]
+Exec:Read
+Exec:Read
+Read
+Exec:Ident("INPUT")
+Exec:If
+current token:If
+iterated [Var, Ident("INPUT"), Comma, Ident("COUNT"), Semicolon, Begin, Ident("COUNT"), Assign, Plus, Number(2), Semicolon, While, Ident("COUNT"), NonEqual, Number(0), Do, Begin, Ident("COUNT"), Assign, Ident("COUNT"), Minus, Number(1), Semicolon, Read, Ident("INPUT"), Semicolon]
+Exec:If
+Exec:If
+If
+START IF_____
+Exec:Ident("INPUT")
+Exec:Ident("INPUT")
+Exec:Ident("INPUT")
+Exec:Lt
+Exec:Lt
+Exec:Lt
+Exec:Number(10)
+Exec:Number(10)
+Exec:Then
+Exec:Then
+Exec:Then
+Exec:While
+While
+Exec:Ident("INPUT")
+Exec:Ident("INPUT")
+Exec:Ident("INPUT")
+Exec:Lt
+Exec:Lt
+Exec:Lt
+Exec:Number(10)
+Exec:Number(10)
+Exec:Do
+Exec:Do
+Exec:Do
+Exec:Print
+Exec:Print
+Exec:Print
+Print
+Exec:Ident("INPUT")
+Exec:Ident("INPUT")
+Exec:Semicolon
+Exec:Semicolon
+Exec:Semicolon
+Exec:If
+token print If
+START END_IF_____
+Exec:Ident("INPUT")
+current token:Ident("INPUT")
+iterated [Var, Ident("INPUT"), Comma, Ident("COUNT"), Semicolon, Begin, Ident("COUNT"), Assign, Plus, Number(2), Semicolon, While, Ident("COUNT"), NonEqual, Number(0), Do, Begin, Ident("COUNT"), Assign, Ident("COUNT"), Minus, Number(1), Semicolon, Read, Ident("INPUT"), Semicolon, If, Ident("INPUT"), Lt, Number(10), Then, While, Ident("INPUT"), Lt, Number(10), Do, Print, Ident("INPUT"), Semicolon, If]
+Exec:Ident("INPUT")
+Exec:Ident("INPUT")
+Ident("INPUT")
+Exec:Gte
+Exec:Gte

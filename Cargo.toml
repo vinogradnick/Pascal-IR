@@ -1,0 +1,15 @@
+[package]
+name = "project-1"
+version = "0.1.0"
+edition = "2021"
+
+
+[profile.release]
+opt-level = 3
+
+[profile.profiling]
+inherits = "release"
+debug = true
+
+[dependencies]
+colored = "3.0.0"

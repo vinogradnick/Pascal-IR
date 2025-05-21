@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  * {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    background: #000;
+    color: snow;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 30px;
+  }
+</style>
+
+<body>
+  <div id="container">
+
+  </div>
+
+  <script>
+
+    const container = document.getElementById('container');
+
+    function reRender() {
+      container.innerText += dataQueue.join('\n')
+    }
+
+    const dataQueue = new Proxy([], {
+      set(target, prop, value) {
+        const result = Reflect.set(target, prop, value);
+        if (prop !== 'length') {
+          // При добавлении элемента обновляем UI
+          reRender();
+        }
+        return result;
+      }
+    });
+    const socket = new WebSocket('ws://localhost:3000/chat');
+    // message is received
+    socket.addEventListener("message", event => {
+      dataQueue.push(event.data)
+    });
+
+    // socket opened
+    socket.addEventListener("open", event => {
+      dataQueue.push(event.data)
+    });
+
+    // socket closed
+    socket.addEventListener("close", event => { });
+
+    // error handler
+    socket.addEventListener("error", event => { });
+  </script>
+</body>
+
+</html>
