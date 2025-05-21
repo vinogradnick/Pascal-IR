@@ -1,4 +1,4 @@
-use crate::{compiler::lexer::token::Token, throw_logic};
+use crate::{compiler::lexer::token::Token, throw_logic, throw_syntax};
 
 use super::{
     ast::{AstNode, ParserResultNode},
@@ -39,15 +39,30 @@ impl Parser {
         if self.cur().is(&Token::Odd) {
             self.advance()?;
             let expr = self.get_expr()?;
-            return Ok(AstNode::Unary {
-                op: Token::Odd,
-                rhs: Box::new(expr),
-            });
+            return Ok(AstNode::new_unary(Token::Odd, expr));
+        }
+        let lhs = self.get_expr()?;
+        let relop = self.cur();
+        let valid_relops = &[
+            Token::Eq,
+            Token::Neq,
+            Token::Lt,
+            Token::Lte,
+            Token::Gt,
+            Token::Gte,
+        ];
+
+        if !relop.is_some(valid_relops) {
+            return throw_syntax!("invalde");
         }
 
-        let expr = self.get_expr();
+        let op = relop.clone();
+        self.advance()?;
+
+        let rhs = self.get_expr()?;
+
         self.log_exit("get_condition");
-        return expr;
+        Ok(AstNode::new_binary(op, lhs, rhs))
         // let op = match self.cur() {
         //     Token::Eq | Token::Neq | Token::Lt | Token::Gt | Token::Gte => self.cur_move(),
         //     other => {
@@ -142,7 +157,8 @@ impl Parser {
 
                 let cond = self.get_condition()?;
 
-                self.expect(Token::Do, "statement_expr::Token::While")?;
+                self.log_result(&cond);
+                self.expect(Token::Do, "")?;
 
                 let statement = self.statement_expr()?;
 

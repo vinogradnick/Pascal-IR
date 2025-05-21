@@ -63,6 +63,9 @@ impl Parser {
     pub fn rollback(&mut self) {
         self.cursor -= 1;
     }
+    pub fn token_line(&self) -> usize {
+        return self.iter[self.cursor].line;
+    }
 
     ///
     ///
@@ -102,12 +105,14 @@ impl Parser {
             self.cursor += 1;
             return Ok(true);
         }
+        if ctx.len() > 0 {
+            return throw_syntax!(format!("Line {}: {ctx}", self.token_line()));
+        }
 
         throw_syntax!(format!(
-            "{} cannot expect {:?} recieved:{:?} ",
-            ctx,
+            "Line {}: {} missing",
+            self.token_line() - 1,
             expect,
-            self.cur(),
         ))
     }
 

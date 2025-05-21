@@ -5,7 +5,7 @@ use super::token::Token;
 #[derive(Clone)]
 pub struct TokenWrapper {
     pub token: Token,
-    line: usize,
+    pub line: usize,
     column: usize,
 }
 
@@ -19,7 +19,7 @@ impl Debug for TokenWrapper {
         //     self.column.checked_div(self.line).unwrap_or(self.column)
         // )
 
-        write!(f, "{:?}", self.token)
+        write!(f, "🔖 {:?} {}", self.token, self.line)
     }
 }
 #[allow(dead_code)]

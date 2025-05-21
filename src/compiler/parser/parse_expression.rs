@@ -30,7 +30,7 @@ impl Parser {
             self.advance()?;
             let expr: Result<AstNode, crate::compiler::parser::error::ParserError> =
                 self.get_expr();
-            self.expect(Token::RParen, "get_factor:RParen")?;
+            self.expect(Token::RParen, "Invalid expr")?;
             self.log_exit("Token::LParen");
             return expr;
             // return throw_logic!("LParen not implemented");
@@ -45,27 +45,18 @@ impl Parser {
     ///
     pub fn get_term(&mut self) -> ParserResultNode {
         self.log_enter("get_term");
+
         let mut node = self.get_factor()?;
 
-        let state = &[
-            Token::Mul,
-            Token::Div,
-            Token::Gt,
-            Token::Gte,
-            Token::Eq,
-            Token::NonEqual,
-        ];
-        while self.cur().is_some(state) {
+        let ops = &[Token::Mul, Token::Div];
+        while self.cur().is_some(ops) {
             let op = self.cur();
             self.advance()?;
 
             let rhs = self.get_factor()?;
-            node = AstNode::Binary {
-                op: op,
-                lhs: Box::new(node),
-                rhs: Box::new(rhs),
-            }
+            node = AstNode::new_binary(op, node, rhs);
         }
+
         self.log_exit("get_term");
         Ok(node)
     }
@@ -81,10 +72,7 @@ impl Parser {
             self.advance()?;
             let rhs = self.get_term()?;
 
-            AstNode::Unary {
-                op: op,
-                rhs: Box::new(rhs),
-            }
+            AstNode::new_unary(op, rhs)
         } else {
             self.get_term()?
         };
@@ -95,11 +83,7 @@ impl Parser {
 
             let rhs = self.get_term()?;
 
-            node = AstNode::Binary {
-                op,
-                lhs: Box::new(node),
-                rhs: Box::new(rhs),
-            }
+            node = AstNode::new_binary(op, node, rhs)
         }
 
         self.log_exit("get_expr");

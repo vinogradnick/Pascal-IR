@@ -13,7 +13,7 @@ impl Parser {
         if ident.is_ident() {
             self.advance()?;
         }
-        self.advance_if(Token::Semicolon);
+        self.expect(Token::Semicolon, "")?;
 
         let block = self.parse_program()?;
         let procedure = AstNode::ProcedureDecl {

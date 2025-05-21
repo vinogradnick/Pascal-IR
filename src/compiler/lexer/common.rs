@@ -11,7 +11,7 @@ impl Lexer {
         Self {
             input: input.chars().collect(),
             pos: 0,
-            line: 0,
+            line: 1,
         }
     }
     #[inline]

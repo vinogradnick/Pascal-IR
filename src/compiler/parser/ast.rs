@@ -53,15 +53,21 @@ pub enum AstNode {
         rhs: Box<AstNode>,
     },
 
-    Binary {
-        op: Token,
-        lhs: Box<AstNode>,
-        rhs: Box<AstNode>,
-    },
-    Unary {
-        op: Token,
-        rhs: Box<AstNode>,
-    },
+    UnaryAdd(Box<AstNode>),                // +expr
+    UnarySub(Box<AstNode>),                // -expr
+    BinaryAdd(Box<AstNode>, Box<AstNode>), // lhs + rhs
+    BinarySub(Box<AstNode>, Box<AstNode>), // lhs - rhs
+    BinaryMul(Box<AstNode>, Box<AstNode>), // lhs * rhs
+    BinaryDiv(Box<AstNode>, Box<AstNode>), // lhs / rhs
+    Odd(Box<AstNode>),
+
+    BinaryEq(Box<AstNode>, Box<AstNode>),  // =
+    BinaryNeq(Box<AstNode>, Box<AstNode>), // #
+    BinaryLt(Box<AstNode>, Box<AstNode>),  // <
+    BinaryLe(Box<AstNode>, Box<AstNode>),  // <=
+    BinaryGt(Box<AstNode>, Box<AstNode>),  // >
+    BinaryGe(Box<AstNode>, Box<AstNode>),  // >=
+
     While {
         condtion: Box<AstNode>,
         statement: Box<AstNode>,
@@ -72,4 +78,36 @@ pub enum AstNode {
         then_statement: Box<AstNode>,
         else_statement: Box<AstNode>,
     },
+    BinaryLte(Box<AstNode>, Box<AstNode>),
+    BinaryGte(Box<AstNode>, Box<AstNode>),
+}
+
+impl AstNode {
+    pub fn new_unary(op: Token, rhs: AstNode) -> AstNode {
+        return match op {
+            Token::Plus => AstNode::UnaryAdd(Box::new(rhs)),
+            Token::Minus => AstNode::UnarySub(Box::new(rhs)),
+            Token::Odd => AstNode::Odd(Box::new(rhs)),
+            tok => {
+                unreachable!("{}", tok)
+            }
+        };
+    }
+    pub fn new_binary(op: Token, lhs: AstNode, rhs: AstNode) -> AstNode {
+        return match op {
+            Token::NonEqual => AstNode::BinaryNeq(Box::new(lhs), Box::new(rhs)),
+            Token::Plus => AstNode::BinaryAdd(Box::new(lhs), Box::new(rhs)),
+            Token::Minus => AstNode::BinarySub(Box::new(lhs), Box::new(rhs)),
+            Token::Eq => AstNode::BinaryEq(Box::new(lhs), Box::new(rhs)),
+            Token::Mul => AstNode::BinaryMul(Box::new(lhs), Box::new(rhs)),
+            Token::Div => AstNode::BinaryDiv(Box::new(lhs), Box::new(rhs)),
+            Token::Lt => AstNode::BinaryLt(Box::new(lhs), Box::new(rhs)),
+            Token::Lte => AstNode::BinaryLte(Box::new(lhs), Box::new(rhs)),
+            Token::Gt => AstNode::BinaryGt(Box::new(lhs), Box::new(rhs)),
+            Token::Gte => AstNode::BinaryGte(Box::new(lhs), Box::new(rhs)),
+            _ => {
+                panic!("undefiend operation {:?}", op)
+            }
+        };
+    }
 }

@@ -99,6 +99,37 @@ impl fmt::Display for ParserError {
     }
 }
 
-
+impl ParserError {
+    pub fn msg(&self) -> String {
+        match self {
+            ParserError::NonMatch {
+                message,
+                file,
+                line,
+                column,
+            } => message.clone(),
+            ParserError::Unnamed { file, line, column } => String::new(),
+            ParserError::Unbound {
+                context,
+                file,
+                line,
+                column,
+            } => String::new(),
+            ParserError::SyntaxError {
+                message,
+                file,
+                line,
+                column,
+            } => message.clone(),
+            ParserError::Eof { file, line, column } => String::new(),
+            ParserError::Logic {
+                message,
+                file,
+                line,
+                column,
+            } => message.clone(),
+        }
+    }
+}
 
 impl std::error::Error for ParserError {}
